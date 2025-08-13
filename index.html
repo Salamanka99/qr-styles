@@ -3,170 +3,244 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>QR أنماط متعددة (تنزيل فوري SVG)</title>
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <title>مولِّد QR بأنماط متعددة (تنزيل فوري SVG)</title>
+  <meta name="description" content="صفحة بسيطة لتوليد QR بأنماط متعددة (مستوحاة من QRBTF) مع تنزيل فوري لصيغة SVG.">
   <style>
     :root{--bg:#0b0f19;--fg:#e6edf3;--muted:#8a93a5;--card:#0f1629;--line:#263045;--accent:#7c3aed}
     *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--fg)}
-    .wrap{max-width:860px;margin:32px auto;padding:16px}
-    .box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
-    h1{margin:0 0 6px;font-size:24px}
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased}
+    .wrap{max-width:980px;margin:32px auto;padding:16px}
+    .box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    h1{margin:0 0 8px;font-size:24px;letter-spacing:.2px}
     .sub{margin:0 0 16px;color:var(--muted);font-size:13px}
-    input[type="text"], input[type="number"], input[type="color"]{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#0c1220;color:var(--fg);outline:none}
-    .grid{display:grid;grid-template-columns:1fr;gap:12px}
-    @media(min-width:820px){.grid{grid-template-columns:1.2fr .9fr}}
+    input[type="text"], input[type="number"], input[type="color"]{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:#0c1220;color:var(--fg);outline:none}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px}
+    @media(min-width:900px){.grid{grid-template-columns:1.2fr .9fr}}
     .row{display:grid;grid-template-columns:1.4fr .6fr .6fr .6fr;gap:8px}
-    .styles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-    button{border:0;border-radius:12px;padding:10px 10px;cursor:pointer;background:transparent;border:1px solid var(--line);color:var(--fg);font-weight:700}
+    .styles{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    button{border:0;border-radius:12px;padding:10px 10px;cursor:pointer;background:transparent;border:1px solid var(--line);color:var(--fg);font-weight:700;transition:.15s transform ease,.15s opacity ease}
+    button:active{transform:scale(.98)}
     button.primary{background:var(--accent);color:#0b0f19;border-color:transparent}
-    .style-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px}
+    .style-btn{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px}
     .thumb{width:100%;aspect-ratio:1;border-radius:10px;display:grid;grid-template-columns:repeat(6,1fr);gap:3px;background:#0c1220;border:1px solid var(--line)}
     .k{background:#0c1220;border-radius:3px}
-    .preview{display:flex;align-items:center;justify-content:center;border:1px dashed var(--line);border-radius:14px;min-height:300px;background:#0c1220;padding:10px}
+    .preview{display:flex;align-items:center;justify-content:center;border:1px dashed var(--line);border-radius:14px;min-height:320px;background:#0c1220;padding:10px}
     svg{max-width:100%;height:auto}
-    .hint{color:var(--muted);font-size:12px;margin-top:6px}
+    .hint{color:var(--muted);font-size:12px;margin-top:8px}
+    .err{color:#ffb4b4}
+    .bar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .brand{display:flex;gap:8px;align-items:center}
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--accent)}
+    .left-actions{display:flex;gap:8px;align-items:center}
+    .invis{opacity:.6}
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha512-3s3dT3cJ4XrN0YkE5n2o2Ywqf8b7rX6c4n9cCwV2YvV0h3Gx8mQx5d3jX8cJxZ6z8kq8XnL8l4c6E0zv8q6rjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
   <div class="wrap">
-    <div class="box grid">
-      <section>
-        <h1>مولِّد QR بأنماط متعددة (مستوحاة من QRBTF)</h1>
-        <p class="sub">اكتب النص ثم اختر النمط — بمجرد الضغط سيبدأ تنزيل ملف SVG مباشرة. (يمكن المعاينة أيضًا يمينًا)</p>
-        <div class="row">
-          <input id="text" type="text" placeholder="مثال: https://example.com" autofocus>
-          <input id="size" type="number" min="180" max="1200" value="480" title="حجم الصورة بالبيكسل"/>
-          <input id="fg" type="color" value="#000000" title="لون النقاط"/>
-          <input id="bg" type="color" value="#ffffff" title="لون الخلفية"/>
-        </div>
+    <div class="box">
+      <div class="bar">
+        <div class="brand"><span class="dot"></span><strong>مولِّد QR بأنماط متعددة</strong> <span class="invis">— مستوحى من QRBTF</span></div>
+        <div class="left-actions"><a href="#" id="dlLast" class="invis" title="إعادة تنزيل آخر كود">تنزيل آخر كود</a></div>
+      </div>
+      <p class="sub">اكتب الرابط ثم اختر النمط — بمجرد الضغط سيبدأ تنزيل ملف SVG مباشرة. يمكنك تغيير الحجم والألوان قبل التنزيل.</p>
+      <div class="grid">
+        <section>
+          <div class="row">
+            <input id="text" type="text" placeholder="مثال: https://example.com" autofocus>
+            <input id="size" type="number" min="180" max="2000" value="520" title="الحجم بالبيكسل"/>
+            <input id="fg" type="color" value="#000000" title="لون النقاط"/>
+            <input id="bg" type="color" value="#ffffff" title="لون الخلفية"/>
+          </div>
 
-        <div class="styles" style="margin-top:12px">
-          <button class="style-btn" data-style="classic" title="كلاسيكي" aria-label="كلاسيكي">
-            <div class="thumb"><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div></div>
-            كلاسيكي
-          </button>
-          <button class="style-btn" data-style="rounded" title="مربعات مستديرة" aria-label="مستدير">
-            <div class="thumb" style="gap:6px"><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div></div>
-            مستدير
-          </button>
-          <button class="style-btn" data-style="dots" title="نقاط" aria-label="نقاط">
-            <div class="thumb" style="gap:8px"><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div></div>
-            نقاط
-          </button>
-          <button class="style-btn" data-style="gap" title="Pixel gap" aria-label="فجوات">
-            <div class="thumb" style="gap:10px"><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div></div>
-            فجوات
-          </button>
-          <button class="style-btn" data-style="smooth" title="مخملي" aria-label="مخملي">
-            <div class="thumb" style="gap:7px"><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div></div>
-            مخملي
-          </button>
-        </div>
+          <div class="styles" style="margin-top:12px">
+            <button class="style-btn" data-style="classic" title="كلاسيكي" aria-label="كلاسيكي">
+              <div class="thumb"><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div></div>
+              كلاسيكي
+            </button>
+            <button class="style-btn" data-style="rounded" title="مربعات مستديرة" aria-label="مستدير">
+              <div class="thumb" style="gap:6px"><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div><div class="k" style="border-radius:8px"></div></div>
+              مستدير
+            </button>
+            <button class="style-btn" data-style="dots" title="نقاط" aria-label="نقاط">
+              <div class="thumb" style="gap:8px"><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div><div class="k" style="border-radius:999px"></div></div>
+              نقاط
+            </button>
+            <button class="style-btn" data-style="gap" title="Pixel gap" aria-label="فجوات">
+              <div class="thumb" style="gap:10px"><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div><div class="k"></div></div>
+              فجوات
+            </button>
+            <button class="style-btn" data-style="smooth" title="مخملي" aria-label="مخملي">
+              <div class="thumb" style="gap:7px"><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div><div class="k" style="border-radius:14px"></div></div>
+              مخملي
+            </button>
+          </div>
 
-        <div class="hint">تنبيه Google Sites: هذا الملف يحتوي JavaScript. لكي يعمل داخل مواقع Google، استضفه خارجيًا (GitHub Pages/Netlify) ثم ضُمّنه عبر <b>Embed → By URL</b>. بدون ذلك، جرّبي نموذج API بسيط لكن بدون الأنماط.</div>
-      </section>
+          <p class="hint" id="libState">يتم تحميل محرّك QR…</p>
+        </section>
 
-      <section>
-        <div id="preview" class="preview"><span class="hint">— المعاينة ستظهر هنا بعد توليد أول رمز —</span></div>
-        <div class="row" style="grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-          <button id="justPreview">معاينة فقط</button>
-          <button id="clear" class="primary">مسح</button>
-        </div>
-      </section>
+        <section>
+          <div id="preview" class="preview"><span class="hint">— المعاينة ستظهر هنا بعد توليد أول رمز —</span></div>
+          <div class="row" style="grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+            <button id="justPreview">معاينة فقط</button>
+            <button id="clear" class="primary">مسح</button>
+          </div>
+          <p class="hint">نصيحة: لأفضل قراءة، اترك الخلفية فاتحة والنقاط داكنة.</p>
+        </section>
+      </div>
     </div>
   </div>
 
   <script>
-    const $ = (id)=>document.getElementById(id);
-    const textEl = $('text');
-    const sizeEl = $('size');
-    const fgEl = $('fg');
-    const bgEl = $('bg');
-    const preview = $('preview');
-    const clearBtn = $('clear');
-    const justPrevBtn = $('justPreview');
+    // --- ديناميكيًا نحاول تحميل مكتبة qrcode-generator مع مسارات بديلة لضمان العمل ---
+    (function loadLib(urls, onDone){
+      function tryNext(i){
+        if(i>=urls.length){ onDone(new Error("تعذر تحميل مكتبة QR")); return; }
+        var s=document.createElement('script');
+        s.src=urls[i];
+        s.defer=true;
+        s.onload=function(){ onDone(null); };
+        s.onerror=function(){ s.remove(); tryNext(i+1); };
+        document.head.appendChild(s);
+      }
+      tryNext(0);
+    })([
+      // بدون SRI لتجنب فشل التحقق في الاستضافات المختلفة
+      "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js",
+      "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js",
+      "https://unpkg.com/qrcode-generator@1.4.4/qrcode.min.js"
+    ], function(err){
+      var libState = document.getElementById('libState');
+      if(err){ libState.innerHTML = '⚠️ <span class="err">تعذر تحميل محرّك QR. تحقق من الاتصال بالإنترنت ثم حدّث الصفحة.</span>'; return; }
+      libState.textContent = '✔︎ تم تحميل محرّك QR';
+      initApp();
+    });
 
-    function buildMatrix(text){
-      const qr = qrcode(0,'M'); // auto version, ECC M
-      qr.addData(text);
-      qr.make();
-      const n = qr.getModuleCount();
-      const matrix = [];
-      for(let y=0;y<n;y++){ const row=[]; for(let x=0;x<n;x++){ row.push(qr.isDark(y,x)); } matrix.push(row); }
-      return matrix;
-    }
+    function initApp(){
+      const $ = (id)=>document.getElementById(id);
+      const textEl = $('text');
+      const sizeEl = $('size');
+      const fgEl = $('fg');
+      const bgEl = $('bg');
+      const preview = $('preview');
+      const clearBtn = $('clear');
+      const justPrevBtn = $('justPreview');
+      const dlLast = $('dlLast');
 
-    function drawSVG(matrix, opt){
-      const n = matrix.length;
-      const margin = 2; // وحدات QR
-      const px = opt.size; // الحجم النهائي بالبيكسل
-      const unit = Math.floor(px / (n + margin*2));
-      const dim = unit * (n + margin*2);
-      const fg = opt.fg, bg = opt.bg, style = opt.style;
-      let content = '';
+      let lastSVG = '';
 
-      // خلفية
-      content += `<rect width="${dim}" height="${dim}" fill="${bg}"/>`;
+      function buildMatrix(text){
+        const qr = qrcode(0,'M'); // auto version, ECC M
+        qr.addData(text);
+        qr.make();
+        const n = qr.getModuleCount();
+        const m = new Array(n);
+        for(let y=0;y<n;y++){
+          m[y] = new Array(n);
+          for(let x=0;x<n;x++){ m[y][x] = qr.isDark(y,x); }
+        }
+        return m;
+      }
 
-      // رسم الوحدات
-      for(let y=0;y<n;y++){
-        for(let x=0;x<n;x++){
-          if(!matrix[y][x]) continue;
-          const X = (x + margin) * unit;
-          const Y = (y + margin) * unit;
-          if(style==='classic'){
-            content += `<rect x="${X}" y="${Y}" width="${unit}" height="${unit}" fill="${fg}"/>`;
-          } else if(style==='rounded'){
-            const r = unit*0.35;
-            content += `<rect x="${X}" y="${Y}" width="${unit}" height="${unit}" rx="${r}" ry="${r}" fill="${fg}"/>`;
-          } else if(style==='dots' || style==='smooth'){
-            const r = unit*(style==='smooth'?0.50:0.45);
-            content += `<circle cx="${X+unit/2}" cy="${Y+unit/2}" r="${r}" fill="${fg}"/>`;
-          } else if(style==='gap'){
-            const s = unit*0.82; const off = (unit-s)/2;
-            content += `<rect x="${X+off}" y="${Y+off}" width="${s}" height="${s}" fill="${fg}"/>`;
-          } else {
-            content += `<rect x="${X}" y="${Y}" width="${unit}" height="${unit}" fill="${fg}"/>`;
+      function drawEyes(n, unit, margin, fg, bg){
+        // ثلاثة محددات قياسية 7x7 عند: (0,0), (n-7,0), (0,n-7)
+        const eyes = [[0,0],[n-7,0],[0,n-7]];
+        let s='';
+        for(const [ex,ey] of eyes){
+          const ox = (ex + margin) * unit;
+          const oy = (ey + margin) * unit;
+          const a = 7*unit, b = 5*unit, c = 3*unit;
+          s += `<rect x="${ox}" y="${oy}" width="${a}" height="${a}" fill="${fg}"/>`;
+          s += `<rect x="${ox+unit}" y="${oy+unit}" width="${b}" height="${b}" fill="${bg}"/>`;
+          s += `<rect x="${ox+2*unit}" y="${oy+2*unit}" width="${c}" height="${c}" fill="${fg}"/>`;
+        }
+        return s;
+      }
+
+      function drawSVG(matrix, opt){
+        const n = matrix.length;
+        const margin = 2; // quiet zone
+        const px = opt.size;
+        const unit = Math.max(1, Math.floor(px / (n + margin*2)));
+        const dim = unit * (n + margin*2);
+        const fg = opt.fg, bg = opt.bg, style = opt.style;
+        let content = '';
+        // background
+        content += `<rect width="${dim}" height="${dim}" fill="${bg}"/>`;
+
+        // modules
+        for(let y=0;y<n;y++){
+          for(let x=0;x<n;x++){
+            if(!matrix[y][x]) continue;
+            const X = (x + margin) * unit;
+            const Y = (y + margin) * unit;
+            if(style==='classic'){
+              content += `<rect x="${X}" y="${Y}" width="${unit}" height="${unit}" fill="${fg}"/>`;
+            } else if(style==='rounded'){
+              const r = unit*0.35;
+              content += `<rect x="${X}" y="${Y}" width="${unit}" height="${unit}" rx="${r}" ry="${r}" fill="${fg}"/>`;
+            } else if(style==='dots' || style==='smooth'){
+              const r = unit*(style==='smooth'?0.50:0.45);
+              content += `<circle cx="${X+unit/2}" cy="${Y+unit/2}" r="${r}" fill="${fg}"/>`;
+            } else if(style==='gap'){
+              const s = unit*0.82; const off = (unit-s)/2;
+              content += `<rect x="${X+off}" y="${Y+off}" width="${s}" height="${s}" fill="${fg}"/>`;
+            } else {
+              content += `<rect x="${X}" y="${Y}" width="${unit}" height="${unit}" fill="${fg}"/>`;
+            }
           }
+        }
+
+        // عيون QR الكلاسيكية أعلى الطبقات لضمان الثبات في جميع الأنماط
+        content += drawEyes(n, unit, margin, fg, bg);
+
+        return `<svg xmlns="http://www.w3.org/2000/svg" width="${dim}" height="${dim}" viewBox="0 0 ${dim} ${dim}" shape-rendering="geometricPrecision" aria-label="QR Code">${content}</svg>`;
+      }
+
+      function generate(style, autoDownload){
+        const txt = (textEl.value||'').trim();
+        if(!txt){ alert('اكتب رابطًا أو نصًا أولًا'); return; }
+        const size = Math.max(180, Math.min(2000, parseInt(sizeEl.value,10)||520));
+        const matrix = buildMatrix(txt);
+        const svg = drawSVG(matrix, {size, fg: fgEl.value, bg: bgEl.value, style});
+        preview.innerHTML = svg;
+        lastSVG = svg;
+        dlLast.classList.remove('invis');
+        if(autoDownload){
+          const blob = new Blob([svg], {type:'image/svg+xml;charset=utf-8'});
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          const safeStyle = style||'classic';
+          a.href=url; a.download=`qr-${safeStyle}-${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.svg`;
+          document.body.appendChild(a); a.click();
+          setTimeout(()=>{URL.revokeObjectURL(url); a.remove();},0);
         }
       }
 
-      return `<svg xmlns="http://www.w3.org/2000/svg" width="${dim}" height="${dim}" viewBox="0 0 ${dim} ${dim}" shape-rendering="geometricPrecision" aria-label="QR Code">${content}</svg>`;
-    }
+      document.querySelectorAll('.style-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const s = btn.getAttribute('data-style');
+          generate(s, true);
+        });
+      });
 
-    function generate(style, autoDownload){
-      const txt = (textEl.value||'').trim();
-      if(!txt){ alert('اكتب رابطًا أو نصًا أولًا'); return; }
-      const size = Math.max(180, Math.min(1200, parseInt(sizeEl.value,10)||480));
-      const matrix = buildMatrix(txt);
-      const svg = drawSVG(matrix, {size, fg: fgEl.value, bg: bgEl.value, style});
-      preview.innerHTML = svg;
-      if(autoDownload){
-        const blob = new Blob([svg], {type:'image/svg+xml;charset=utf-8'});
+      justPrevBtn.addEventListener('click', ()=> generate('classic', false));
+      clearBtn.addEventListener('click', ()=>{
+        textEl.value=''; preview.innerHTML='<span class="hint">— المعاينة ستظهر هنا بعد توليد أول رمز —</span>'; textEl.focus();
+      });
+      textEl.addEventListener('paste', ()=> setTimeout(()=> generate('classic', false), 0));
+
+      dlLast.addEventListener('click', function(e){
+        e.preventDefault();
+        if(!lastSVG) return;
+        const blob = new Blob([lastSVG], {type:'image/svg+xml;charset=utf-8'});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        const safeStyle = style||'classic';
-        a.href=url; a.download=`qr-${safeStyle}-${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.svg`;
+        a.href=url; a.download=`qr-last-${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.svg`;
         document.body.appendChild(a); a.click();
         setTimeout(()=>{URL.revokeObjectURL(url); a.remove();},0);
-      }
-    }
-
-    // أحداث الأزرار (أسلوب يشبه QRBTF: الضغط = تنزيل فوري)
-    document.querySelectorAll('.style-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const s = btn.getAttribute('data-style');
-        generate(s, true); // تنزيل فوري
       });
-    });
-
-    justPrevBtn.addEventListener('click', ()=> generate('classic', false));
-    clearBtn.addEventListener('click', ()=>{ textEl.value=''; preview.innerHTML='<span class="hint">— المعاينة ستظهر هنا بعد توليد أول رمز —</span>'; textEl.focus(); });
-
-    // توليد فوري عند اللصق
-    textEl.addEventListener('paste', ()=> setTimeout(()=> generate('classic', false), 0));
+    }
   </script>
 </body>
 </html>
