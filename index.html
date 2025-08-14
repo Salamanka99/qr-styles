@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مولّد رموز QR — Topex</title>
+  <meta name="description" content="مولّد رموز QR للشركة — معاينة مباشرة وتنزيل SVG/PNG.">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="container header">
+    <div class="brand">
+      <img src="assets/logo.jpg" class="logo" alt="شعار شركة توبكس">
+      <div class="titles">
+        <h1 class="visually-hidden">مولّد رموز QR — Topex</h1>
+        <p class="credit">تم تطوير هذه المنظومة بواسطة زياد سلامة — جميع الحقوق محفوظة | 2025</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container card">
+    <div class="controls">
+      <label for="url" class="lbl">الرابط</label>
+      <input id="url" type="text" value="https://topex.sa" placeholder="https://topex.sa"
+             title="أدخل الرابط المطلوب تحويله إلى رمز QR" aria-label="حقل إدخال الرابط">
+
+      <div class="mini">
+        <div id="miniPreview" class="miniBox" aria-live="polite" title="معاينة فورية للرمز"></div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="fg" class="lbl">لون النقاط</label>
+          <input id="fg" type="color" value="#0b0b0b" title="تغيير لون وحدات الرمز" aria-label="لون النقاط">
+        </div>
+        <div class="col">
+          <label for="bg" class="lbl">الخلفية</label>
+          <input id="bg" type="color" value="#ffffff" title="تغيير لون الخلفية" aria-label="لون الخلفية">
+        </div>
+        <div class="col">
+          <label for="ecc" class="lbl">التصحيح</label>
+          <select id="ecc" title="اختيار مستوى تصحيح الخطأ" aria-label="مستوى تصحيح الخطأ">
+            <option value="L">7%‏ — L</option>
+            <option value="M" selected>15%‏ — M</option>
+            <option value="Q">25%‏ — Q</option>
+            <option value="H">30%‏ — H</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="size" class="lbl">الحجم (px)</label>
+          <input id="size" type="number" min="180" max="2000" step="10" value="520"
+                 title="حجم الصورة النهائية بالبكسل" aria-label="حجم الصورة بالبكسل">
+        </div>
+      </div>
+
+      <!-- style thumbnails (no text labels) -->
+      <div class="style-strip" aria-label="اختيار شكل الرمز">
+        <button class="style-btn" data-style="classic" aria-label="كلاسيكي" title="كلاسيكي">
+          <img src="assets/thumb-classic.svg" class="thumb" alt="شكل كلاسيكي">
+        </button>
+        <button class="style-btn" data-style="half" aria-label="نصف دائري" title="نصف دائري">
+          <img src="assets/thumb-half.svg" class="thumb" alt="شكل نصف دائري">
+        </button>
+        <button class="style-btn" data-style="circle" aria-label="دائري كلاسيك" title="دائري كلاسيك">
+          <img src="assets/thumb-circle.svg" class="thumb" alt="شكل دائري">
+        </button>
+        <button class="style-btn" data-style="circleVar" aria-label="دائري متغيّر" title="دائري متغيّر">
+          <img src="assets/thumb-circleVar.svg" class="thumb" alt="شكل دائري متغيّر">
+        </button>
+      </div>
+
+      <div class="switch">
+        <input id="withLogo" type="checkbox" aria-label="إدراج شعار توبكس داخل الرمز" title="إدراج شعار توبكس داخل الرمز (PNG فقط)">
+        <label for="withLogo">وجود شعار داخل الرمز (PNG فقط)</label>
+        <input id="logoFile" type="file" accept="image/*" class="file" aria-label="رفع ملف شعار" title="رفع ملف شعار">
+      </div>
+
+      <div id="warn" class="warn" role="alert" hidden>تحذير: مستوى التصحيح أقل من 15% وقد يؤدي إلى رمز غير قابل للمسح عند وجود شعار.</div>
+
+      <div class="actions">
+        <button id="dlSvg" class="btn" aria-label="تنزيل كملف SVG" title="تنزيل كملف SVG">تحميل SVG</button>
+        <button id="dlPng" class="btn primary" aria-label="تنزيل كملف PNG" title="تنزيل كملف PNG">تحميل PNG</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="container foot">
+    <small class="made">Made by TopEX</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
