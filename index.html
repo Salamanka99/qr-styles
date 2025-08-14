@@ -3,93 +3,127 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>مولّد رموز QR — Topex</title>
-  <meta name="description" content="مولّد رموز QR للشركة — معاينة مباشرة وتنزيل SVG/PNG.">
-  <!-- Fonts -->
+  <title>مولّد QR — Topex</title>
+  <meta name="description" content="مولّد QR بأربعة أنماط مخصّصة، معاينة مباشرة، وتحميل SVG/PNG (مع شعار في PNG فقط).">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="container header">
-    <div class="brand">
-      <img src="assets/logo.jpg" class="logo" alt="شعار شركة توبكس">
-      <div class="titles">
-        <h1 class="visually-hidden">مولّد رموز QR — Topex</h1>
-        <p class="credit">تم تطوير هذه المنظومة بواسطة زياد سلامة — جميع الحقوق محفوظة | 2025</p>
+  <header class="topbar">
+    <div class="wrap">
+      <div class="logo-title">
+        <div class="brand">QR<span>TOPEX</span></div>
       </div>
+      <div class="by">By TopEX</div>
     </div>
   </header>
 
-  <main class="container card">
-    <div class="controls">
-      <label for="url" class="lbl">الرابط</label>
-      <input id="url" type="text" value="https://topex.sa" placeholder="https://topex.sa"
-             title="أدخل الرابط المطلوب تحويله إلى رمز QR" aria-label="حقل إدخال الرابط">
-
-      <div class="mini">
-        <div id="miniPreview" class="miniBox" aria-live="polite" title="معاينة فورية للرمز"></div>
+  <main class="wrap grid">
+    <!-- Left: styles & controls -->
+    <section class="left">
+      <div class="group">
+        <label for="url" class="lbl">URL</label>
+        <input id="url" type="text" value="https://topex.sa" placeholder="https://topex.sa" aria-label="إدخال الرابط">
       </div>
 
-      <div class="row">
-        <div class="col">
-          <label for="fg" class="lbl">لون النقاط</label>
-          <input id="fg" type="color" value="#0b0b0b" title="تغيير لون وحدات الرمز" aria-label="لون النقاط">
+      <div class="group">
+        <div class="lbl">Style</div>
+        <div class="styles" role="tablist" aria-label="اختيار الشكل">
+          <button class="style active" data-style="classic" aria-selected="true" title="كلاسيكي">
+            <img src="assets/classic.svg" alt="شكل كلاسيكي">
+          </button>
+          <button class="style" data-style="half" aria-selected="false" title="نصف دائري">
+            <img src="assets/half.svg" alt="شكل نصف دائري">
+          </button>
+          <button class="style" data-style="circle" aria-selected="false" title="دائري">
+            <img src="assets/circle.svg" alt="شكل دائري">
+          </button>
+          <button class="style" data-style="circleVar" aria-selected="false" title="دائري متغيّر">
+            <img src="assets/circleVar.svg" alt="شكل دائري متغيّر">
+          </button>
         </div>
-        <div class="col">
-          <label for="bg" class="lbl">الخلفية</label>
-          <input id="bg" type="color" value="#ffffff" title="تغيير لون الخلفية" aria-label="لون الخلفية">
-        </div>
-        <div class="col">
-          <label for="ecc" class="lbl">التصحيح</label>
-          <select id="ecc" title="اختيار مستوى تصحيح الخطأ" aria-label="مستوى تصحيح الخطأ">
-            <option value="L">7%‏ — L</option>
-            <option value="M" selected>15%‏ — M</option>
-            <option value="Q">25%‏ — Q</option>
-            <option value="H">30%‏ — H</option>
+      </div>
+
+      <div class="panel">
+        <h3>A1</h3>
+        <div class="field">
+          <label class="lbl">Correct level</label>
+          <select id="ecc">
+            <option value="L">7%</option>
+            <option value="M" selected>15%</option>
+            <option value="Q">25%</option>
+            <option value="H">30%</option>
           </select>
         </div>
-        <div class="col">
-          <label for="size" class="lbl">الحجم (px)</label>
-          <input id="size" type="number" min="180" max="2000" step="10" value="520"
-                 title="حجم الصورة النهائية بالبكسل" aria-label="حجم الصورة بالبكسل">
+
+        <div class="field">
+          <label class="lbl">Positioning color</label>
+          <input id="eyeColor" type="color" value="#000000">
         </div>
+
+        <div class="field">
+          <label class="lbl">Content type</label>
+          <select id="contentType">
+            <option value="classic">Square</option>
+            <option value="half">Rounded Square</option>
+            <option value="circle">Circle</option>
+            <option value="circleVar">Circle (vary)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="lbl">Content scale</label>
+          <input id="scale" type="range" min="0.4" max="1.0" step="0.02" value="0.6">
+        </div>
+
+        <div class="field">
+          <label class="lbl">Content opacity</label>
+          <input id="opacity" type="range" min="0.5" max="1" step="0.01" value="1">
+        </div>
+
+        <div class="field">
+          <label class="lbl">Content color</label>
+          <input id="fg" type="color" value="#000000">
+        </div>
+
+        <div class="field">
+          <label class="lbl">Background</label>
+          <input id="bg" type="color" value="#ffffff">
+        </div>
+
+        <div class="field">
+          <label class="lbl">Size (px)</label>
+          <input id="size" type="number" min="180" max="2000" step="10" value="520">
+        </div>
+
+        <div class="field row">
+          <div class="switch">
+            <input id="withLogo" type="checkbox">
+            <label for="withLogo">Embed logo in PNG only</label>
+          </div>
+          <input id="logoFile" type="file" accept="image/*" class="file">
+        </div>
+
+        <div id="warn" class="warn" hidden>Warning: ECC &lt; 15% with a logo may reduce scannability.</div>
       </div>
+    </section>
 
-      <!-- style thumbnails (no text labels) -->
-      <div class="style-strip" aria-label="اختيار شكل الرمز">
-        <button class="style-btn" data-style="classic" aria-label="كلاسيكي" title="كلاسيكي">
-          <img src="assets/thumb-classic.svg" class="thumb" alt="شكل كلاسيكي">
-        </button>
-        <button class="style-btn" data-style="half" aria-label="نصف دائري" title="نصف دائري">
-          <img src="assets/thumb-half.svg" class="thumb" alt="شكل نصف دائري">
-        </button>
-        <button class="style-btn" data-style="circle" aria-label="دائري كلاسيك" title="دائري كلاسيك">
-          <img src="assets/thumb-circle.svg" class="thumb" alt="شكل دائري">
-        </button>
-        <button class="style-btn" data-style="circleVar" aria-label="دائري متغيّر" title="دائري متغيّر">
-          <img src="assets/thumb-circleVar.svg" class="thumb" alt="شكل دائري متغيّر">
-        </button>
+    <!-- Right: preview & download -->
+    <section class="right">
+      <div class="preview">
+        <div id="preview" class="box" aria-live="polite"></div>
       </div>
-
-      <div class="switch">
-        <input id="withLogo" type="checkbox" aria-label="إدراج شعار توبكس داخل الرمز" title="إدراج شعار توبكس داخل الرمز (PNG فقط)">
-        <label for="withLogo">وجود شعار داخل الرمز (PNG فقط)</label>
-        <input id="logoFile" type="file" accept="image/*" class="file" aria-label="رفع ملف شعار" title="رفع ملف شعار">
-      </div>
-
-      <div id="warn" class="warn" role="alert" hidden>تحذير: مستوى التصحيح أقل من 15% وقد يؤدي إلى رمز غير قابل للمسح عند وجود شعار.</div>
-
       <div class="actions">
-        <button id="dlSvg" class="btn" aria-label="تنزيل كملف SVG" title="تنزيل كملف SVG">تحميل SVG</button>
-        <button id="dlPng" class="btn primary" aria-label="تنزيل كملف PNG" title="تنزيل كملف PNG">تحميل PNG</button>
+        <button id="btnSvg" class="btn">Download SVG</button>
+        <button id="btnPng" class="btn primary">Download PNG</button>
       </div>
-    </div>
+    </section>
   </main>
 
-  <footer class="container foot">
-    <small class="made">Made by TopEX</small>
+  <footer class="foot">
+    <div class="wrap muted">Made by TopEX</div>
   </footer>
 
   <script src="app.js"></script>
