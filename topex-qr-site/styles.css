@@ -1,0 +1,44 @@
+:root{
+  --bg:#0b0f19;
+  --card:#0f1629;
+  --line:#263045;
+  --fg:#e6edf3;
+  --muted:#8a93a5;
+  --accent:#7c3aed;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Tajawal',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Noto Sans Arabic',sans-serif;
+  background:var(--bg); color:var(--fg);
+  -webkit-font-smoothing:antialiased
+}
+.container{max-width:1100px;margin:24px auto;padding:0 16px}
+.brand{display:flex;gap:12px;align-items:center}
+.dot{width:10px;height:10px;border-radius:999px;background:var(--accent)}
+h1{margin:0;font-size:22px}
+.credit{margin:4px 0 0;color:var(--muted);font-size:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.tabs{display:flex;gap:8px;margin-bottom:12px}
+.tab{background:transparent;border:1px solid var(--line);color:var(--fg);padding:10px 14px;border-radius:999px;cursor:pointer}
+.tab.active,.tab:hover{background:var(--accent);color:#0b0f19;border-color:transparent}
+.tabpanel.hidden{display:none}
+.grid{display:grid;grid-template-columns:1.2fr .9fr;gap:14px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.controls input[type="text"], .controls input[type="number"], .controls input[type="color"], .controls select, .controls textarea{
+  width:100%;border-radius:12px;border:1px solid var(--line);background:#0c1220;color:var(--fg);padding:10px 12px;outline:none
+}
+.lbl{display:block;color:#cbd5e1;font-size:12px;margin:0 0 6px}
+.row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.col{width:100%}
+.switch{display:flex;align-items:end;gap:8px}
+.file{display:none}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.btn{border:1px solid var(--line);background:#0c1220;color:var(--fg);padding:10px 16px;border-radius:12px;cursor:pointer}
+.btn.primary{background:var(--accent);color:#0b0f19;border-color:transparent}
+.preview{border:1px dashed var(--line);border-radius:14px;min-height:360px;background:#0c1220;padding:10px;position:relative}
+.preview .hint{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.35);padding:6px 10px;border-radius:999px;font-size:12px;color:#d6dae3}
+.previewBox{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.progress{height:8px;background:#0c1220;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:10px}
+.bar{height:100%;width:0;background:var(--accent);transition:width .2s ease}
