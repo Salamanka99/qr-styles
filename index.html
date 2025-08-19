@@ -1,0 +1,599 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="ar" dir="rtl"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="utf-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width,initial-scale=1" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;مولّد QR – نص/رابط • Wi‑Fi • vCard • SMS&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23131426'/%3E%3Cpath d='M10 10h16v16H10zM10 38h16v16H10zM38 10h16v16H38zM38 38h8v8h-8zM50 38h4v4h-4zM46 50h8v4h-8z' fill='%236c5ce7'/%3E%3C/svg%3E"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>:root{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--bg:#0f1220; --card:#171a2b; --muted:#8b90a6; --accent:#6c5ce7;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--text:#e8eaf6; --border:#242842; --ok:#2ecc71; --danger:#ff4757;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>*{box-sizing:border-box}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:linear-gradient(120deg,#0c0f1a,#13162a 40%,#0c0f1a);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color:var(--text);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>min-height:100vh; display:grid; place-items:center; padding:24px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.app{ width:min(1200px,100%); display:grid; gap:20px; grid-template-columns:420px 1fr }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>@media (max-width:980px){ .app{ grid-template-columns:1fr } }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:rgba(23,26,43,.9); border:1px solid var(--border);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius:16px; padding:18px; backdrop-filter: blur(10px);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 20px 50px rgba(0,0,0,.35);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>h1{font-size:22px; margin:0 0 10px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.muted{color:var(--muted); font-size:13px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.controls{display:grid; gap:14px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>label{font-size:13px; color:var(--muted); display:block; margin-bottom:6px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>input[type="text"], input[type="number"], select, textarea{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:#101326; color:var(--text); outline:none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>textarea{ min-height:90px; resize:vertical }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>input[type="color"]{height:38px; width:100%; border:1px solid var(--border); background:#101326; border-radius:10px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.row{display:grid; gap:10px; grid-template-columns:1fr 1fr}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display:inline-flex; align-items:center; justify-content:center; gap:8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:var(--accent); color:#fff; border:none; padding:10px 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius:10px; cursor:pointer; font-weight:600; transition:.2s transform,.2s opacity;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn.secondary{ background:#23284a }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn.ghost{ background:transparent; border:1px solid var(--border); color:var(--text) }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn:disabled{ opacity:.6; cursor:not-allowed }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn:active{ transform:translateY(1px) }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.toolbar{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pill{display:inline-block; padding:2px 8px; border-radius:999px; background:#23284a; font-size:11px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.footer{margin-top:8px; text-align:center; color:var(--muted); font-size:12px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.qr-wrap{ display:grid; place-items:center; min-height:560px; position:relative; border-radius:16px; overflow:hidden;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:</p>
+<p class="p1"><span class="Apple-converted-space">        </span>radial-gradient(1200px 400px at -10% -20%, rgba(108,92,231,.15), transparent),</p>
+<p class="p1"><span class="Apple-converted-space">        </span>radial-gradient(1200px 400px at 120% 120%, rgba(46,213,115,.12), transparent);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>canvas, svg{ max-width:100%; height:auto }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hint{font-size:12px; color:#a2a7c3}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.file{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display:flex; align-items:center; gap:12px; justify-content:space-between;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:#101326; border:1px dashed var(--border); padding:10px 12px; border-radius:10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.drop{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align:center; padding:12px; border:1px dashed var(--border); border-radius:10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:#0f1328; color:#cdd2f0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.drop.drag{ border-color:var(--accent); color:#fff; background:#141a36 }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.ok{ color:var(--ok) } .danger{ color:var(--danger) }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.split{ display:flex; gap:10px; flex-wrap:wrap }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.grow{ flex:1 1 auto }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.box{ border:1px solid var(--border); border-radius:12px; padding:12px; background:#0f1328 }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mode-tabs{ display:flex; gap:8px; flex-wrap:wrap }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mode-tabs .btn{ background:#23284a }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mode-tabs .btn.active{ background:var(--accent) }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.dim{ opacity:.75 }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">  </span>&lt;!-- محرك متقدم (أنماط/شعار/SVG) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script defer src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"&gt;&lt;/script&gt;</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">  </span>&lt;!-- بديل بسيط عند الفشل --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="app"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h1&gt;مولّد QR &lt;span class="pill"&gt;Inspired by QRBTF&lt;/span&gt;&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="muted"&gt;اختر نوع المحتوى (نص/رابط، Wi‑Fi، vCard، SMS) ثم الثيم والخيارات، نزّل PNG/SVG أو انسخ وشارك. 🔨🤖🔧&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="controls"&gt;</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">        </span>&lt;!-- اختيار وضع المحتوى --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label&gt;نوع المحتوى&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="mode-tabs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn ghost active" data-mode="text"&gt;نص/رابط&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn ghost" data-mode="wifi"&gt;Wi‑Fi&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn ghost" data-mode="vcard"&gt;vCard&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="btn ghost" data-mode="sms"&gt;SMS&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="hint" style="margin-inline-start:6px"&gt;&lt;input type="checkbox" id="manualEdit"&gt; تحرير يدوي&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">        </span>&lt;!-- الحقول العامة --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="manualBox" class="box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label&gt;المحتوى النهائي (يُحدّث تلقائيًا)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;textarea id="data" placeholder="https://example.com أو أي نص"&gt;&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div id="dataHint" class="hint"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Wi‑Fi --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="wifiBox" class="box" hidden&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;SSID (اسم الشبكة)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input id="wifiSsid" type="text" placeholder="MyWiFi"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;الأمان&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;select id="wifiAuth"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="WPA"&gt;WPA/WPA2/WPA3&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="WEP"&gt;WEP&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="nopass"&gt;بدون كلمة مرور&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;كلمة المرور&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input id="wifiPass" type="text" placeholder="password123"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;مخفية؟&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;select id="wifiHidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="false"&gt;لا&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="true"&gt;نعم&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="hint"&gt;سيُولَّد بصيغة &lt;code&gt;WIFI:T:WPA;S:MyWiFi;P:***;H:false;;&lt;/code&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- vCard --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="vcardBox" class="box" hidden&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;الاسم الكامل (FN)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input id="vcFN" type="text" placeholder="الاسم الكامل"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;المسمّى الوظيفي (TITLE)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input id="vcTITLE" type="text" placeholder="المسمى"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;الشركة (ORG)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input id="vcORG" type="text" placeholder="الشركة"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;الهاتف (TEL)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input id="vcTEL" type="text" placeholder="+9665XXXXXXX"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;البريد (EMAIL)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input id="vcEMAIL" type="text" placeholder="name@example.com"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;الموقع (URL)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input id="vcURL" type="text" placeholder="https://example.com"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;العنوان (ADR)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input id="vcADR" type="text" placeholder="المدينة;المنطقة;الشارع;الرمز"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="hint"&gt;صيغة ADR: &lt;code&gt;;;الشارع;المدينة;المنطقة;الرمز;الدولة&lt;/code&gt; (يمكن كتابة نص حر)&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;ملاحظات (NOTE)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;textarea id="vcNOTE" placeholder="نص ملاحظات…"&gt;&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="hint"&gt;يتم إنشاء vCard 3.0 متوافقًا مع جهات الاتصال.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- SMS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="smsBox" class="box" hidden&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;رقم الهاتف&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input id="smsNumber" type="text" placeholder="+9665XXXXXXX"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;نموذج التنسيق&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;select id="smsFormat"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="SMSTO"&gt;SMSTO:number:message&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="sms"&gt;sms:number?body=message&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;نص الرسالة&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;textarea id="smsBody" placeholder="نص الرسالة…"&gt;&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">        </span>&lt;!-- إعدادات الشكل/الألوان --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;الحجم (px)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input id="size" type="number" min="120" max="2048" step="10" value="420"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;الهامش (Quiet Zone)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input id="margin" type="number" min="0" max="60" value="10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;لون النقاط&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input id="dotColor" type="color" value="#000000"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;لون الخلفية&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input id="bgColor" type="color" value="#ffffff"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;نمط النقاط&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select id="dotStyle"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="square"&gt;مربعات&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="rounded" selected&gt;مستديرة&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="dots"&gt;نقاط&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="classy"&gt;Classy&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="classy-rounded"&gt;Classy Rounded&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="extra-rounded"&gt;Extra Rounded&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;تصحيح الخطأ&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select id="ecLevel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="L"&gt;L (أقل)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="M" selected&gt;M&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="Q"&gt;Q&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="H"&gt;H (أعلى)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;نمط العيون (Corners)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select id="cornersStyle"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="square"&gt;مربعة&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="dot" selected&gt;دائرية&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="extra-rounded"&gt;Extra Rounded&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;لون العيون&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input id="cornersColor" type="color" value="#000000"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">        </span>&lt;!-- الثيمات --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label&gt;الثيمات&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="split"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select id="theme" class="grow"&gt;&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="applyTheme" class="btn secondary"&gt;تطبيق&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="randomTheme" class="btn ghost"&gt;🎲 عشوائي&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="split" style="margin-top:8px"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input id="customThemeName" class="grow" type="text" placeholder="اسم الثيم للحفظ"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="saveTheme" class="btn"&gt;حفظ ثيم&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="hint"&gt;الثيمات تحفظ محليًا (LocalStorage).&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">        </span>&lt;!-- اللوجو --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="file"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="grow"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;strong&gt;لوجو (اختياري)&lt;/strong&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="hint"&gt;اسحب الملف هنا أو اختره. PNG/SVG يفضّل بخلفية شفافة.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input id="logo" type="file" accept=".png,.jpg,.jpeg,.svg" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button id="removeLogo" class="btn ghost"&gt;حذف&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="drop" class="drop"&gt;اسحب اللوجو وأفلته هنا ⬇️&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">        </span>&lt;!-- تنزيل/نسخ/مشاركة --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="btn" id="downloadPng"&gt;⬇️ تحميل PNG&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="btn secondary" id="downloadSvg"&gt;⬇️ تحميل SVG&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="btn ghost" id="copyPng"&gt;📋 نسخ PNG للحافظة&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="btn ghost" id="sharePng"&gt;🔗 مشاركة&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="footer"&gt;</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">        </span>تتم كل المعالجة محليًا في متصفحك. لا يتم رفع أي بيانات.</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="card qr-wrap"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="qrMount" aria-label="QR Preview"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="toolbar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="hint"&gt;📌 معاينة مباشرة – عدّل الإعدادات من اليسار&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span id="status" class="hint"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// ======= الحالة العامة =======</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const S = { advanced:null, fallback:null, logo:null, mode:"text" };</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// ======= عناصر DOM =======</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const $ = id =&gt; document.getElementById(id);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const mount = $("qrMount"), status = $("status");</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// ======= ثيمات افتراضية =======</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const builtInThemes = {</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">      </span>"كلاسيك أبيض/أسود": { dots:"#000000", bg:"#ffffff", corners:"#000000", style:"square", cornersStyle:"square" },</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">      </span>"دارك بنفسجي": <span class="Apple-converted-space">    </span>{ dots:"#c9c4ff", bg:"#171a2b", corners:"#6c5ce7", style:"rounded", cornersStyle:"dot" },</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">      </span>"نعناعي": <span class="Apple-converted-space">          </span>{ dots:"#0f5132", bg:"#d1fae5", corners:"#059669", style:"dots", cornersStyle:"extra-rounded" },</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">      </span>"غروب": <span class="Apple-converted-space">            </span>{ dots:"#8e2de2", bg:"#ffe29a", corners:"#ff4d4d", style:"classy-rounded", cornersStyle:"dot" },</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">      </span>"ليزر": <span class="Apple-converted-space">            </span>{ dots:"#00e6ff", bg:"#0b1020", corners:"#00ffa3", style:"extra-rounded", cornersStyle:"square" }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const THEMES_KEY = "qr_themes_v1";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const getUserThemes = () =&gt; { try{ return JSON.parse(localStorage.getItem(THEMES_KEY)||"{}"); }catch{ return {}; } };</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const saveUserThemes = (o) =&gt; localStorage.setItem(THEMES_KEY, JSON.stringify(o));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function refreshThemeSelect(){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const select = $("theme"); select.innerHTML = "";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>Object.keys(builtInThemes).forEach(n=&gt;{ const o=document.createElement("option"); o.value="b:"+n; o.textContent="⭐ "+n; select.appendChild(o); });</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const usr = getUserThemes();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>Object.keys(usr).forEach(n=&gt;{ const o=document.createElement("option"); o.value="u:"+n; o.textContent="📝 "+n; select.appendChild(o); });</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// ======= أدوات =======</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function fileToDataURL(file){ return new Promise((res,rej)=&gt;{ const r=new FileReader(); r.onload=()=&gt;res(r.result); r.onerror=rej; r.readAsDataURL(file); }); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const escapeWifi = s =&gt; (s||"").replace(/([;,:\\"])/g,"\\$1");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const escVC = s =&gt; (s||"").replace(/([,;])/g,"\\$1").replace(/\n/g,"\\n"); // vCard escape</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function buildWifi(){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const ssid = escapeWifi($("wifiSsid").value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const t = $("wifiAuth").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const pass = escapeWifi($("wifiPass").value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const hidden = $("wifiHidden").value === "true";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let out = `WIFI:T:${t};S:${ssid};`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(t!=="nopass") out += `P:${pass};`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>out += `H:${hidden};;`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>return out;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function buildVCard(){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const FN=$("vcFN").value, TITLE=$("vcTITLE").value, ORG=$("vcORG").value, TEL=$("vcTEL").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const EMAIL=$("vcEMAIL").value, URL=$("vcURL").value, ADR=$("vcADR").value, NOTE=$("vcNOTE").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const lines=[</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"BEGIN:VCARD",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"VERSION:3.0",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>FN?`FN:${escVC(FN)}`:"",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>ORG?`ORG:${escVC(ORG)}`:"",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>TITLE?`TITLE:${escVC(TITLE)}`:"",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>TEL?`TEL;TYPE=CELL:${escVC(TEL)}`:"",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>EMAIL?`EMAIL;TYPE=INTERNET:${escVC(EMAIL)}`:"",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>URL?`URL:${escVC(URL)}`:"",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>ADR?`ADR;TYPE=HOME:${escVC(ADR)}`:"",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>NOTE?`NOTE:${escVC(NOTE)}`:"",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"END:VCARD"</p>
+<p class="p1"><span class="Apple-converted-space">      </span>].filter(Boolean);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>return lines.join("\n");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function buildSMS(){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const n = ($("smsNumber").value||"").trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const body = ($("smsBody").value||"").trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const fmt = $("smsFormat").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(fmt==="SMSTO") return `SMSTO:${n}:${body}`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const q = new URLSearchParams({ body }).toString();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>return `sms:${n}?${q}`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// ======= وضع المحتوى / التبديل =======</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const modeButtons = [...document.querySelectorAll(".mode-tabs .btn")];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const boxes = { text:$("manualBox"), wifi:$("wifiBox"), vcard:$("vcardBox"), sms:$("smsBox") };</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function setMode(m){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>S.mode = m;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>modeButtons.forEach(b=&gt;b.classList.toggle("active", b.dataset.mode===m));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>Object.entries(boxes).forEach(([k,el])=&gt; el.hidden = (k!== (m==="text"?"text":m)) || (m==="text" &amp;&amp; !$("manualEdit").checked));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>$("manualBox").hidden = (m!=="text" &amp;&amp; !$("manualEdit").checked);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(m!=="text" &amp;&amp; !$("manualEdit").checked) genFromMode();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>update();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>modeButtons.forEach(b=&gt;b.addEventListener("click", ()=&gt; setMode(b.dataset.mode)));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$("manualEdit").addEventListener("change", ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(S.mode!=="text"){</p>
+<p class="p1"><span class="Apple-converted-space">        </span>$("manualBox").hidden = !$("manualEdit").checked;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if(!$("manualEdit").checked) genFromMode();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>update();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>$("manualBox").hidden = !$("manualEdit").checked ? false : false; // always visible for text</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function genFromMode(){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const v = S.mode==="wifi" ? buildWifi() : S.mode==="vcard" ? buildVCard() : S.mode==="sms" ? buildSMS() : $("data").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>$("data").value = v;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>validateData();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// ======= إنشاء/تحديث QR =======</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function ensureEngines(){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const hasAdv = typeof QRCodeStyling !== "undefined";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const hasFB<span class="Apple-converted-space">  </span>= typeof QRCode !== "undefined";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(hasAdv &amp;&amp; !S.advanced){</p>
+<p class="p1"><span class="Apple-converted-space">        </span>S.advanced = new QRCodeStyling({</p>
+<p class="p1"><span class="Apple-converted-space">          </span>width:+$("size").value, height:+$("size").value,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>data:$("data").value || "", margin:+$("margin").value,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>qrOptions:{ errorCorrectionLevel:$("ecLevel").value },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>dotsOptions:{ color:$("dotColor").value, type:$("dotStyle").value },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>cornersSquareOptions:{ color:$("cornersColor").value, type:$("cornersStyle").value },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>cornersDotOptions:{ color:$("cornersColor").value },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>backgroundOptions:{ color:$("bgColor").value },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>image:S.logo || undefined, imageOptions:{ crossOrigin:"anonymous", margin:4 }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mount.innerHTML=""; S.advanced.append(mount);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>status.textContent = "وضع متقدم (SVG/Logo/Styles)"; status.className = "hint ok";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(!hasAdv &amp;&amp; hasFB &amp;&amp; !S.fallback){</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mount.innerHTML="";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>S.fallback = new QRCode(mount, {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text:$("data").value || "", width:+$("size").value, height:+$("size").value,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>colorDark:$("dotColor").value, colorLight:$("bgColor").value,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>correctLevel: QRCode["CorrectLevel"][$("ecLevel").value] || QRCode.CorrectLevel.M</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>status.textContent = "وضع بديل بسيط (Canvas فقط)"; status.className = "hint";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(!hasAdv &amp;&amp; !hasFB){ status.textContent = "جارٍ تحميل المكتبات..."; status.className = "hint"; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function update(){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ensureEngines();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const cfg = {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>data:$("data").value || "",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>width:+$("size").value, height:+$("size").value, margin:+$("margin").value,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>qrOptions:{ errorCorrectionLevel:$("ecLevel").value },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dotsOptions:{ color:$("dotColor").value, type:$("dotStyle").value },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>cornersSquareOptions:{ color:$("cornersColor").value, type:$("cornersStyle").value },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>cornersDotOptions:{ color:$("cornersColor").value },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>backgroundOptions:{ color:$("bgColor").value },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>image:S.logo || undefined, imageOptions:{ crossOrigin:"anonymous", margin:4 }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(S.advanced){ S.advanced.update(cfg); }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>else if(S.fallback){</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mount.innerHTML="";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>S.fallback = new QRCode(mount, {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text:cfg.data, width:cfg.width, height:cfg.height,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>colorDark:cfg.dotsOptions.color, colorLight:cfg.backgroundOptions.color,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>correctLevel: QRCode["CorrectLevel"][cfg.qrOptions.errorCorrectionLevel] || QRCode.CorrectLevel.M</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>validateData();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// ======= فحص المحتوى =======</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function validateData(){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const v = $("data").value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const isUrl = /^https?:\/\/\S+$/i.test(v);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const hint = $("dataHint");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(!v){ hint.textContent = "أدخل نصًا أو ولّد من النماذج (Wi‑Fi/vCard/SMS)."; hint.className="hint danger"; return false; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>hint.textContent =</p>
+<p class="p1"><span class="Apple-converted-space">        </span>S.mode==="wifi" ? "صيغة Wi‑Fi جاهزة ✔️" :</p>
+<p class="p1"><span class="Apple-converted-space">        </span>S.mode==="vcard" ? "vCard 3.0 جاهزة ✔️" :</p>
+<p class="p1"><span class="Apple-converted-space">        </span>S.mode==="sms" ? "نص SMS جاهز ✔️" :</p>
+<p class="p1"><span class="Apple-converted-space">        </span>(isUrl ? "يبدو كرابط صالح ✔️" : "نص عادي – ما في مشكلة ✅");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>hint.className="hint ok";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>return true;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// ======= ثيمات =======</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function applyThemeObj(t){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(!t) return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>$("dotColor").value = t.dots || $("dotColor").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>$("bgColor").value = t.bg || $("bgColor").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>$("cornersColor").value = t.corners || $("cornersColor").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>$("dotStyle").value = t.style || $("dotStyle").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>$("cornersStyle").value = t.cornersStyle || $("cornersStyle").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>update();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$("applyTheme").addEventListener("click", ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const sel = $("theme").value; if(!sel) return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [src,name] = sel.split(":");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const theme = (src==="b") ? builtInThemes[name] : getUserThemes()[name];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>applyThemeObj(theme);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$("saveTheme").addEventListener("click", ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const name = $("customThemeName").value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(!name){ alert("اكتب اسمًا للثيم."); return; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const usr = getUserThemes();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>usr[name] = {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dots:$("dotColor").value, bg:$("bgColor").value,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>corners:$("cornersColor").value, style:$("dotStyle").value, cornersStyle:$("cornersStyle").value</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>saveUserThemes(usr); refreshThemeSelect(); $("customThemeName").value=""; alert("تم حفظ الثيم ✅");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$("randomTheme").addEventListener("click", ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const rnd = ()=&gt;Math.floor(Math.random()*200)+30; const color = ()=&gt;"#"+[rnd(),rnd(),rnd()].map(x=&gt;x.toString(16).padStart(2,"0")).join("");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>applyThemeObj({</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dots:color(), bg:color(), corners:color(),</p>
+<p class="p1"><span class="Apple-converted-space">        </span>style:["square","rounded","dots","classy","classy-rounded","extra-rounded"][Math.floor(Math.random()*6)],</p>
+<p class="p1"><span class="Apple-converted-space">        </span>cornersStyle:["square","dot","extra-rounded"][Math.floor(Math.random()*3)]</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// ======= اللوجو =======</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$("logo").addEventListener("change", async e=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const f = e.target.files[0]; if(!f){ S.logo=null; update(); return; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>S.logo = await fileToDataURL(f); update();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$("removeLogo").addEventListener("click", ()=&gt;{ S.logo=null; $("logo").value=""; update(); });</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// سحب وإفلات</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const drop = $("drop");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>["dragenter","dragover"].forEach(ev=&gt;drop.addEventListener(ev,e=&gt;{ e.preventDefault(); drop.classList.add("drag"); }));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>["dragleave","drop"].forEach(ev=&gt;drop.addEventListener(ev,e=&gt;{ e.preventDefault(); drop.classList.remove("drag"); }));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>drop.addEventListener("drop", async e=&gt;{ const f=e.dataTransfer.files[0]; if(!f) return; S.logo=await fileToDataURL(f); $("logo").value=""; update(); });</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// ======= تنزيل/نسخ/مشاركة =======</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function makeName(ext){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const raw = ($("data").value || "qr").slice(0,40).replace(/https?:\/\//i,"").replace(/[^\w\u0600-\u06FF-]+/g,"-").replace(/-+/g,"-").replace(/^-|-$/g,"");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const size = $("size").value; return `qr_${raw || "code"}_${size}.${ext}`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$("downloadPng").addEventListener("click", ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ensureEngines();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const name = makeName("png");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(S.advanced){ S.advanced.download({ name, extension:"png" }); }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>else if(S.fallback){ const c=mount.querySelector("canvas"); const a=document.createElement("a"); a.download=name; a.href=c.toDataURL("image/png"); a.click(); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$("downloadSvg").addEventListener("click", ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ensureEngines();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(S.advanced){ S.advanced.download({ name:makeName("svg"), extension:"svg" }); }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>else alert("صيغة SVG تحتاج المحرك المتقدم.");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$("copyPng").addEventListener("click", async ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ensureEngines();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>try{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let blob;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if(S.advanced){ const dataUrl = await S.advanced.getRawData("png"); blob = await (await fetch(dataUrl)).blob(); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else{ const c=mount.querySelector("canvas"); blob = await new Promise(r=&gt;c.toBlob(r,"image/png",1)); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert("تم نسخ PNG إلى الحافظة ✅");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}catch{ alert("المتصفح لا يدعم النسخ المباشر للصورة. حمّلها بدلًا من ذلك."); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$("sharePng").addEventListener("click", async ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ensureEngines();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(!navigator.canShare || !navigator.canShare({ files:[new File([""],"x")] })){ alert("ميزة المشاركة غير مدعومة على هذا الجهاز."); return; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let blob;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(S.advanced){ const dataUrl = await S.advanced.getRawData("png"); blob = await (await fetch(dataUrl)).blob(); }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>else{ const c=mount.querySelector("canvas"); blob = await new Promise(r=&gt;c.toBlob(r,"image/png",1)); }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const file = new File([blob], makeName("png"), { type:"image/png" });</p>
+<p class="p1"><span class="Apple-converted-space">      </span>await navigator.share({ files:[file], title:"QR Code", text:"صنعته للتو 👇" });</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// ======= ربط الحقول =======</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// تغييرات وضع المحتوى</p>
+<p class="p1"><span class="Apple-converted-space">    </span>["wifiSsid","wifiAuth","wifiPass","wifiHidden"].forEach(id=&gt;$(id).addEventListener("input", ()=&gt;{ if(S.mode==="wifi" &amp;&amp; !$("manualEdit").checked){ $("data").value = buildWifi(); update(); } }));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>["vcFN","vcTITLE","vcORG","vcTEL","vcEMAIL","vcURL","vcADR","vcNOTE"].forEach(id=&gt;$(id).addEventListener("input", ()=&gt;{ if(S.mode==="vcard" &amp;&amp; !$("manualEdit").checked){ $("data").value = buildVCard(); update(); } }));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>["smsNumber","smsBody","smsFormat"].forEach(id=&gt;$(id).addEventListener("input", ()=&gt;{ if(S.mode==="sms" &amp;&amp; !$("manualEdit").checked){ $("data").value = buildSMS(); update(); } }));</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// تغييرات عامة</p>
+<p class="p1"><span class="Apple-converted-space">    </span>["data","size","margin","dotColor","bgColor","dotStyle","ecLevel","cornersStyle","cornersColor"]</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.forEach(id=&gt;$(id).addEventListener("input", update));</p>
+<p class="p2"><br></p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">    </span>// بداية</p>
+<p class="p1"><span class="Apple-converted-space">    </span>window.addEventListener("load", ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>refreshThemeSelect();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>$("data").value = "https://example.com";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>setMode("text");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>update();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
